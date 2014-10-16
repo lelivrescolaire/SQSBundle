@@ -1,0 +1,11 @@
+parameters:
+    lls_sqs.monolog.handler: LLS\Bundle\SQSBundle\Monolog\Handler\SQSHandler
+
+services:
+    lls_sqs_handler:
+        class: %lls_sqs.monolog.handler%
+        arguments:
+            - @aws_sqs
+            - %lls_sqs.monolog.handler.queueUrl%
+            - %lls_sqs.monolog.handler.level%
+            - %lls_sqs.monolog.handler.bubble%
