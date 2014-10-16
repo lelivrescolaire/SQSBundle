@@ -1,0 +1,6 @@
+standard-path=vendor/m6web/symfony2-coding-standard/
+standard=Symfony2
+.
+!bin/
+!Tests/
+!vendor/

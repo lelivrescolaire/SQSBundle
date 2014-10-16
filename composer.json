@@ -1,0 +1,30 @@
+{
+    "name": "lelivrescolaire/sqs-bundle",
+    "license": "MIT",
+    "description": "Communicate with an SQS queue from inside your symfony 2 application.",
+    "autoload": {
+        "psr-0": {
+            "LLS\\Bundle\\SQSBundle": ""
+        }
+    },
+    "target-dir": "LLS/Bundle/SQSBundle",
+    "require": {
+        "php": ">=5.3.0",
+        "lelivrescolaire/aws-bundle": "dev-master"
+    },
+    "require-dev": {
+        "atoum/atoum": "dev-master",
+        "m6web/coke" : "~1.0",
+        "m6web/Symfony2-coding-standard": "~1.1",
+        "symfony/config": "~2.5",
+        "symfony/dependency-injection": "~2.5",
+        "symfony/http-kernel": "~2.5",
+        "symfony/yaml": "~2.5"
+    },
+    "suggests": {
+        "monolog/monolog": "Allows to ship logs into SQS queue"
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}

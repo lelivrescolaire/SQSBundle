@@ -1,0 +1,22 @@
+parameters:
+    llssqs.service.type.sqs.class:      'LLS\Bundle\SQSBundle\Model\SQS'
+    llssqs.model.queue.class:           'LLS\Bundle\SQSBundle\Model\Queue'
+    llssqs.model.message.factory.class: 'LLS\Bundle\SQSBundle\Factory\MessageFactory'
+    llssqs.model.queue.factory.class:   'LLS\Bundle\SQSBundle\Factory\QueueFactory'
+
+services:
+    llssqs.model.message.factory:
+        class: %llssqs.model.message.factory.class%
+
+    llssqs.model.queue.factory:
+        class: %llssqs.model.queue.factory.class%
+        arguments:
+            - @llssqs.model.message.factory
+
+    llssqs.service.type.sqs:
+        class: %llsaws.service.type.generic.factory.class%
+        arguments:
+            - %llssqs.service.type.sqs.class%
+            - @llssqs.model.queue.factory
+        tags:
+            - {name: llsaws.service.type, alias: sqs}
