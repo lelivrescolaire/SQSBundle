@@ -54,6 +54,7 @@ class LLSSQSExtension extends Extension
                             new Reference(
                                 LLSAWSExtension::getServiceServiceKey($attributes['service'])
                             ),
+                            new Reference('llssqs.model.message.factory'),
                             $attributes['name']
                         )
                     )
