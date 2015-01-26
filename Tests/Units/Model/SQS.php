@@ -67,7 +67,7 @@ class SQS extends AwsServiceTest
         $sqs = $this->getInstance();
         $queue = $this->getQueueInterfaceMock();
         $queue->getMockController()->getUrl = 'http://sqs.eu-west-1.amazonaws.com/123456789012/testCreate';
-    
+
         $this
             ->assert
 
@@ -84,10 +84,10 @@ class SQS extends AwsServiceTest
     public function testRetreiveQueues()
     {
         $sqs = $this->getInstance();
-    
+
         $this
             ->assert
-    
+
                 // GetQueue
 
                 ->object($queueGetByName = $sqs->getQueue('testGetQueue'))
@@ -98,7 +98,7 @@ class SQS extends AwsServiceTest
                                 ->once
 
                 // ListQueues
-    
+
                 ->object($this->fixtureGuzzleCall('ListQueues'))
                 ->array($queues = $sqs->listQueues())
                     ->hasSize(1)
@@ -143,7 +143,10 @@ class SQS extends AwsServiceTest
 
         $mock->getMockController()->getNameFromUrl = function ($url)
         {
-            return trim(array_pop(explode('/', $url)));
+            $expUrl = explode('/', $url);
+            $name   = array_pop($expUrl);
+
+            return trim($name);
         };
 
         return $mock;
