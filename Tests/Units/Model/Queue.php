@@ -60,13 +60,13 @@ class Queue extends AwsServiceTest
                                 ->once
         ;
     }
-  
+
     public function testFetchMessages()
     {
         $queue   = $this->getInstance();
         $message = $this->getMessageInterfaceMock();
         $message->getMockController()->getBody = 'This is a test message';
-        
+
         $this
             ->assert
 
@@ -85,7 +85,7 @@ class Queue extends AwsServiceTest
                                 ->once
         ;
     }
-  
+
     public function testDeleteMessages()
     {
         $queue   = $this->getInstance();
