@@ -10,9 +10,19 @@
     "target-dir": "LLS/Bundle/SQSBundle",
     "require": {
         "php": ">=5.3.0",
-        "cybernox/amazon-webservices-bundle": ">=1.5.4"
+        "lelivrescolaire/aws-bundle": "dev-master"
     },
-    "suggests": {
-        "monolog/monolog": "Allows to ship logs into SQS queue"
+    "require-dev": {
+        "atoum/atoum": "dev-master",
+        "m6web/coke" : "~1.0",
+        "m6web/Symfony2-coding-standard": "~1.1",
+        "symfony/config": "~2.5",
+        "symfony/dependency-injection": "~2.5",
+        "symfony/http-kernel": "~2.5",
+        "symfony/yaml": "~2.5",
+        "symfony/expression-language": "~2.5"
+    },
+    "config": {
+        "bin-dir": "bin"
     }
 }

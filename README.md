@@ -1,10 +1,10 @@
-# SQS Bundle - LeLivreScolaire
+[![LeLivreScolaire](http://h2010.associationhec.com/images/news/logo-officiel-jpeg.jpg)](http://www.lelivrescolaire.fr)
+
+# *SQS Bundle* [![Build Status](https://secure.travis-ci.org/lelivrescolaire/SQSBundle.png?branch=master)](http://travis-ci.org/lelivrescolaire/SQSBundle) [![Coverage Status](https://coveralls.io/repos/lelivrescolaire/SQSBundle/badge.png?branch=master)](https://coveralls.io/r/lelivrescolaire/SQSBundle?branch=master)
 
 Communicate with an SQS queue from inside your symfony 2 application.
 
-## Features
-
-* Ship logs from your application directly to SQS queue using Monolog
+This bundle is an extension of [lelivrescolaire/AWSBundle](https://github.com/lelivrescolaire/AWSBundle).
 
 ## Installation
 
@@ -18,8 +18,8 @@ AppKernel:
 public function registerBundles()
 {
     $bundles = array(
+        new LLS\Bundle\AWSBundle\LLSAWSBundle(),
         new LLS\Bundle\SQSBundle\LLSSQSBundle(),
-        new Cybernox\AmazonWebServicesBundle\CybernoxAmazonWebServicesBundle(),
     );
 }
 ```
@@ -27,35 +27,89 @@ public function registerBundles()
 ## Configuration reference
 
 ```yml
-cybernox_amazon_web_services:
-    key:              %aws_key%
-    secret:           %aws_secret%
-
-monolog:
-    handlers:
-        sqs:
-            type:     service
-            id:       lls_sqs_handler
-            priority: 0
+llsaws:
+    identities:
+        my_identity:                        # Arbitrary Identity service name
+            type: user                      # Identity type name (factory alias)
+            fields:                         # Identity fields
+                key: '<user AWS key>'
+                secret: '<user AWS secret>'
+    services:
+        my_sqs_service:                     # Arbitrary service name
+            type: sqs                       # Service Type (factory alias)
+            identity: my_identity
 
 llssqs:
-    monolog:
-        handler:
-            queueUrl: "%sqs_queue_url%"
-            level:    INFO
-            bubble:   true
+    queues:
+        my_queue:                   # Arbitrary Queue service name
+            service: my_sqs_service # SQS Service name
+            name: myQueue           # AWS Queue name
 ```
-
-`queueUrl`: Your SQS Queue URL (required)
-
-`level`: Min log level to ship to SQS (Optional, default: INFO)
-
-`bubble`: Let other handlers handle this message (Optional, default: true)
 
 ## Usage
 
-Nothing to do, once properly configured, Monolog wil automatically ship logs to your SQS Queue.
+Given the previous config:
+
+```php
+<?php
+namespace Acme\Bundle\MyBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+use LLS\Bundle\SQSBundle\Model\Queue;
+use LLS\Bundle\SQSBundle\Model\Message;
+
+class MyController extends Controller
+{
+    public function myAction()
+    {
+        $identityAsService = $this->get('llsaws.identities.my_identity');
+        $sqsAsService      = $this->get('llsaws.services.my_sqs_service');
+        $queueAsService    = $this->get('llssqs.queues.my_queue');
+
+        // Create a queue
+
+        $queue = $sqsAsService->getQueue('myCreatedQueue'); // Instanciate Queue
+
+        $sqsAsService->createQueue($queue); // Remotely create the queue
+
+        var_dump($queue->getUrl()); // Get queue URL
+
+        // Send a message to a queue
+
+        $message = new Message();
+        $message->setBody('Hello world!');
+
+        $queueAsService->sendMessage($message);
+
+        // Fetch messages from a queue
+
+        $maxMsg = 10; // Max number of messages to fetch
+
+        $messages = $queueAsService->fetchMessages($maxMsg);
+
+        foreach ($messages as $message) {
+            var_dump($message->getBody());
+            $queueAsService->delete($message); // Delete message (only works for fetched Messages)
+        }
+    }
+}
+```
 
 ## Contribution
 
-Feel free to send us Pull Requests with your fixs and features.
+Feel free to send us [Pull Requests](https://github.com/lelivrescolaire/SQSBundle/compare) and [Issues](https://github.com/lelivrescolaire/SQSBundle/issues/new) with your fixs and features.
+
+## Run test
+
+### Unit tests
+
+```shell
+$ ./bin/atoum
+```
+
+### Coding standards
+
+```shell
+$ ./bin/coke
+```

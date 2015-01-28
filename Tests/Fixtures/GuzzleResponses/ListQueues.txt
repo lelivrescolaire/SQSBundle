@@ -1,0 +1,15 @@
+HTTP/1.1 200 OK
+Content-Type: application/xml
+
+<ListQueuesResponse>
+  <ListQueuesResult>
+    <QueueUrl>
+      http://sqs.eu-west-1.amazonaws.com/123456789012/testList
+    </QueueUrl>
+  </ListQueuesResult>
+  <ResponseMetadata>
+    <RequestId>
+      725275ae-0b9b-4762-b238-436d7c65a1ac
+    </RequestId>
+  </ResponseMetadata>
+</ListQueuesResponse>

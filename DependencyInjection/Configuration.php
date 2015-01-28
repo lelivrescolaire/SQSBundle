@@ -19,32 +19,33 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('llssqs');
-
-        $this->getMonologConfig($rootNode);
+        $rootNode
+            ->fixXmlConfig('queue')
+            ->append($this->getQueuesConfig());
 
         return $treeBuilder;
     }
 
-    protected function getMonologConfig($rootNode)
+    protected function getQueuesConfig()
     {
-        $rootNode
-            ->children()
-                ->arrayNode('monolog')
-                    ->children()
-                        ->arrayNode('handler')
-                            ->children()
-                                ->scalarNode('queueUrl')
-                                    ->isRequired()
-                                ->end()
-                                ->scalarNode('level')->end()
-                                ->scalarNode('bubble')->end()
-                            ->end()
-                        ->end()
+        $treeBuilder = new TreeBuilder();
+
+        $node = $treeBuilder->root('queues');
+        $node
+            ->requiresAtLeastOneElement()
+            ->useAttributeAsKey('id')
+            ->prototype('array')
+                ->children()
+                    ->scalarNode('service')
+                        ->isRequired()
+                    ->end()
+                    ->scalarNode('name')
+                        ->isRequired()
                     ->end()
                 ->end()
-            ->end()
+            ->end();
         ;
 
-        return $this;
+        return $node;
     }
 }

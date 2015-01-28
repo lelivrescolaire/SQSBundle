@@ -1,11 +1,22 @@
 parameters:
-    lls_sqs.monolog.handler: LLS\Bundle\SQSBundle\Monolog\Handler\SQSHandler
+    llssqs.service.type.sqs.class:      'LLS\Bundle\SQSBundle\Model\SQS'
+    llssqs.model.queue.class:           'LLS\Bundle\SQSBundle\Model\Queue'
+    llssqs.model.message.factory.class: 'LLS\Bundle\SQSBundle\Factory\MessageFactory'
+    llssqs.model.queue.factory.class:   'LLS\Bundle\SQSBundle\Factory\QueueFactory'
 
 services:
-    lls_sqs_handler:
-        class: %lls_sqs.monolog.handler%
+    llssqs.model.message.factory:
+        class: %llssqs.model.message.factory.class%
+
+    llssqs.model.queue.factory:
+        class: %llssqs.model.queue.factory.class%
         arguments:
-            - @aws_sqs
-            - %lls_sqs.monolog.handler.queueUrl%
-            - %lls_sqs.monolog.handler.level%
-            - %lls_sqs.monolog.handler.bubble%
+            - @llssqs.model.message.factory
+
+    llssqs.service.type.sqs:
+        class: %llsaws.service.type.generic.factory.class%
+        arguments:
+            - %llssqs.service.type.sqs.class%
+            - @llssqs.model.queue.factory
+        tags:
+            - {name: llsaws.service.type, alias: sqs}
