@@ -96,6 +96,10 @@ class MyController extends Controller
 }
 ```
 
+## Ship Monolog logs to SQS
+
+See [here](https://github.com/lelivrescolaire/MonologExtraBundle/blob/master/Resources/doc/Handlers/sqs_handler.md).
+
 ## Contribution
 
 Feel free to send us [Pull Requests](https://github.com/lelivrescolaire/SQSBundle/compare) and [Issues](https://github.com/lelivrescolaire/SQSBundle/issues/new) with your fixs and features.
