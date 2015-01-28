@@ -136,10 +136,12 @@ class LLSSQSExtension extends ContainerBuilderTest
                         ->if($arguments = $definition->getArguments())
                         ->then
                             ->array($arguments)
-                                ->hasSize(2)
+                                ->hasSize(3)
                             ->object($arguments[0])
                                 ->isEqualTo(new Reference('llsaws.services.bar_service'))
-                            ->string($arguments[1])
+                            ->object($arguments[1])
+                                ->isEqualTo(new Reference('llssqs.model.message.factory'))
+                            ->string($arguments[2])
                                 ->isEqualTo('BarQueue')
 
                 ->boolean($this->container->hasDefinition($this->root.'.queues.foo'))
@@ -151,10 +153,12 @@ class LLSSQSExtension extends ContainerBuilderTest
                         ->if($arguments = $definition->getArguments())
                         ->then
                             ->array($arguments)
-                                ->hasSize(2)
+                                ->hasSize(3)
                             ->object($arguments[0])
                                 ->isEqualTo(new Reference('llsaws.services.foo_service'))
-                            ->string($arguments[1])
+                            ->object($arguments[1])
+                                ->isEqualTo(new Reference('llssqs.model.message.factory'))
+                            ->string($arguments[2])
                                 ->isEqualTo('FooQueue');
     }
 
@@ -191,10 +195,12 @@ class LLSSQSExtension extends ContainerBuilderTest
                         ->if($arguments = $definition->getArguments())
                         ->then
                             ->array($arguments)
-                                ->hasSize(2)
+                                ->hasSize(3)
                             ->object($arguments[0])
                                 ->isEqualTo(new Reference('llsaws.services.bar_service'))
-                            ->string($arguments[1])
+                            ->object($arguments[1])
+                                ->isEqualTo(new Reference('llssqs.model.message.factory'))
+                            ->string($arguments[2])
                                 ->isEqualTo('FooQueue');
     }
 }
