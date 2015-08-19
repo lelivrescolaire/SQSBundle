@@ -79,7 +79,7 @@ class Queue implements QueueInterface
     {
         $response = $this->getAttributes(array("ApproximateNumberOfMessages"));
 
-        return (int) $response[0]['value'];
+        return (int) $response['ApproximateNumberOfMessages'];
     }
 
     /**
