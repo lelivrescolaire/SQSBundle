@@ -194,12 +194,18 @@ class Queue implements QueueInterface
         $response = $this->sqs->getClient()->receiveMessage($arguments);
         $service = $this;
 
-        return array_map(function ($definition) use ($service) {
-            return $service->getMessageFactory()
-                ->create(trim($definition['Body']))
-                ->setId(trim($definition['MessageId']))
-                ->setReceipthandle(trim($definition['ReceiptHandle']));
-        }, $response->get('Messages'));
+        $messages = array();
+
+        if (!is_null($response->get('Messages'))) {
+            $messages = array_map(function ($definition) use ($service) {
+                return $service->getMessageFactory()
+                    ->create(trim($definition['Body']))
+                    ->setId(trim($definition['MessageId']))
+                    ->setReceipthandle(trim($definition['ReceiptHandle']));
+            }, $response->get('Messages'));
+        }
+
+        return $messages;
     }
 
     /**
