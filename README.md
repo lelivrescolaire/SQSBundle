@@ -34,6 +34,8 @@ llsaws:
             fields:                         # Identity fields
                 key: '<user AWS key>'
                 secret: '<user AWS secret>'
+                region: '<region of the SQS queue>'
+                endpoint: '<endpoint to plug elasticMQ or other third services; not required>'
     services:
         my_sqs_service:                     # Arbitrary service name
             type: sqs                       # Service Type (factory alias)
