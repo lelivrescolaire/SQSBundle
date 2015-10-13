@@ -64,9 +64,9 @@ class LLSSQSExtension extends ContainerBuilderTest
                     ->object($definition = $this->container->getDefinition($this->root.'.model.queue.factory'))
                         ->string($definition->getClass())
                             ->isEqualTo('%'.$this->root.'.model.queue.factory.class%')
-                
+
                         // Arguments
-                
+
                         ->array($arguments = $definition->getArguments())
                             ->hasSize(1)
                         ->object($arguments[0])
@@ -77,9 +77,9 @@ class LLSSQSExtension extends ContainerBuilderTest
                     ->object($definition = $this->container->getDefinition($this->root.'.service.type.sqs'))
                         ->string($definition->getClass())
                             ->isEqualTo('%llsaws.service.type.generic.factory.class%')
-                
+
                         // Tags
-                
+
                         ->array($tags = $definition->getTags())
                             ->hasSize(1)
                             ->hasKey("llsaws.service.type")
@@ -91,15 +91,19 @@ class LLSSQSExtension extends ContainerBuilderTest
                                         ->isIdenticalTo(array(
                                             "alias" => "sqs"
                                         ))
-                
+
                         // Arguments
-                
+
                         ->array($arguments = $definition->getArguments())
                             ->hasSize(2)
                         ->string($arguments[0])
                             ->isEqualTo('%llssqs.service.type.sqs.class%')
-                        ->object($arguments[1])
-                            ->isEqualTo(new Reference('llssqs.model.queue.factory'));
+                        ->array($arguments[1])
+                            ->hasSize(2)
+                                ->string($arguments[1][0])
+                                    ->isEqualTo('setQueueFactory')
+                                ->object($arguments[1][1])
+                                    ->isEqualTo(new Reference('llssqs.model.queue.factory'));
     }
 
     public function testConfigCreateServices()
