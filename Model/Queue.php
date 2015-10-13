@@ -99,6 +99,15 @@ class Queue implements QueueInterface
     /**
      * {@inheritDoc}
      */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function addPermission($label, array $awsAccountId, array $actionName)
     {
         $arguments = array(

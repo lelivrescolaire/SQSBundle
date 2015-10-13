@@ -46,11 +46,19 @@ interface QueueInterface
     public function getSize();
 
     /**
-     * Get Queue URL
+     * Get Queue URL; url property is a class level cache
      *
      * @return string Queue URL
      */
     public function getUrl();
+
+    /**
+     * Set Queue URL; class level cache setted externaly by SQS model
+     *
+     * @param $url
+     * @return $this
+     */
+    public function setUrl($url);
 
     /**
      * Add a Queue permission
