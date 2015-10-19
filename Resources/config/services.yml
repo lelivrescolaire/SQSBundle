@@ -17,6 +17,6 @@ services:
         class: %llsaws.service.type.generic.factory.class%
         arguments:
             - %llssqs.service.type.sqs.class%
-            - @llssqs.model.queue.factory
+            - ['setQueueFactory', @llssqs.model.queue.factory]
         tags:
             - {name: llsaws.service.type, alias: sqs}
