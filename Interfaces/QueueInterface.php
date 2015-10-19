@@ -55,7 +55,7 @@ interface QueueInterface
     /**
      * Set Queue URL; class level cache setted externaly by SQS model
      *
-     * @param string $url   Url to set
+     * @param string $url Url to set
      *
      * @return $this
      */
