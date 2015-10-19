@@ -102,6 +102,7 @@ class Queue implements QueueInterface
     public function setUrl($url)
     {
         $this->url = $url;
+
         return $this;
     }
 
