@@ -92,7 +92,7 @@ class MyController extends Controller
 
         foreach ($messages as $message) {
             var_dump($message->getBody());
-            $queueAsService->delete($message); // Delete message (only works for fetched Messages)
+            $queueAsService->deleteMessage($message); // Delete message (only works for fetched Messages)
         }
     }
 }
