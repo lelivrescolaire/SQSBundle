@@ -47,6 +47,8 @@ class QueueFactory implements QueueFactoryInterface
      */
     public static function getNameFromUrl($url)
     {
-        return trim(array_pop(explode('/', $url)));
+        $exploded = explode('/', $url);
+
+        return trim(array_pop($exploded));
     }
 }
